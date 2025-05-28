@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculadora Airbnb</title>
+</head>
+<body>
+
+    <section>
+        <h3> <span id="preco_diaria">R$620.00</span> noite</h3>
+        <form action="#">
+            <div>
+                <p>
+                    <label for="checkin">CHECK-IN</label>
+                    <input type="date" value="2025-05-23" id="checkin">
+                </p>
+                <p>
+                    <label for="checkout">CHECKOUT</label>
+                    <input type="date" value="2025-05-24" id="checkout">
+                </p>
+            </div>
+            <p>
+                <label for="hospedes">HÓSPEDES</label>
+                <select id="hospedes">
+                    <option value="1">1 Hospede</option>
+                    <option value="2">2 Hospedes</option>
+                    <option value="3">3 Hospedes</option>
+                    <option value="4">4 Hospedes</option>
+                </select>
+            </p>
+            <p>
+                <button>Reserve</button>
+            </p>
+            <p>
+                <input id="desconto" type="text">
+            </p>
+        </form>
+        <div>
+            <p>
+                Você ainda não será cobrado
+            </p>
+            <ul>
+                <li>
+                    <span id="subtotal">R$620 x 5 noites</span> <span id="valor_sub">R$3.100</span>
+                </li>
+                <li>
+                    <span>Taxa de limpeza</span> <span id="taxa_limpeza">R$120</span>
+                </li>
+                <li>
+                    <span>Taxa de serviço do Airbnb</span> <span id="taxa_servico">R$468</span>
+                </li>
+                <hr>
+                <li>
+                    <span>Total sem impostos</span> <span id="total">R$3.688</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <script>
+
+        let checkout = document.getElementById('checkout')
+        console.log(checkout)
+        let checkin = document.getElementById('checkin')
+        let hospedes = document.getElementById('hospedes')
+        let desconto = document.getElementById('desconto');
+        
+        function calcule(event){
+            console.log(hospedes.value)
+
+            let data_saida = new Date(checkout.value);
+            let data_entrada = new Date(checkin.value);
+            console.log(data_saida, data_entrada);
+            let qtd_diarias = (data_saida - data_entrada) / 86400000
+            console.log(qtd_diarias)
+
+            let preco_diaria = parseFloat(document.getElementById('preco_diaria').innerText.substring(2));
+            console.log(preco_diaria)
+
+            let valor_hospedes = 1
+            if (hospedes.value == 1) {
+                valor_hospedes == 1
+            }
+            else if 
+                (hospedes.value == 2){
+                    valor_hospedes = 1.2
+                }
+            else if 
+                (hospedes.value == 3){
+                    valor_hospedes = 1.4
+                }
+            else if 
+                (hospedes.value == 4){
+                    valor_hospedes = 1.6
+                }
+            
+            let subtotal = document.getElementById("subtotal");
+            subtotal.innerText = "R$ " + preco_diaria + "X" + qtd_diarias + "noites"; 
+            let valor_sub = document.getElementById("valor_sub");
+            let valor_diarias = preco_diaria * qtd_diarias;
+            valor_sub.innerHTML = "R$" + valor_diarias;
+
+            let taxa_serviço = document.getElementById('taxa_servico');
+            let valor_taxa_servico = 0.15 * valor_diarias;
+            taxa_servico.innerHTML = "R$" + valor_taxa_servico;
+
+            let taxa_limpeza = document.getElementById('taxa_limpeza');
+            let valor_taxa_limpeza = parseFloat(taxa_limpeza.innerText.substring(2));
+            console.log(valor_taxa_limpeza);
+
+            console.log(desconto)
+            let valor_desconto = 1
+            if (desconto.value == "OFF15"){
+                valor_desconto = 0.85
+            }
+            else if
+                (desconto.value == "OFF10"){
+                    valor_desconto = 0.90
+            }
+            else if (desconto.value == "OFF40") {
+                valor_desconto = 0.60
+            }
+
+            let total = document.getElementById('total');
+            total.innerText = "R$" + (((valor_diarias * valor_hospedes) + valor_taxa_servico + valor_taxa_limpeza) * valor_desconto).toFixed(2)
+
+        }
+
+        checkout.addEventListener("change", calcule);
+        checkin.addEventListener("change", calcule);
+        hospedes.addEventListener("change", calcule);
+        desconto.addEventListener("change", calcule);
+
+    </script>
+
+    
+</body>
+</html>
